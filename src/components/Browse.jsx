@@ -1,7 +1,9 @@
+import Header from "./Header";
+
 const Browse = () => {
     return (
-        <div className="m-5 p-5 font-bold">
-            Browse page
+        <div className="">
+            <Header />
         </div>
     )
 }

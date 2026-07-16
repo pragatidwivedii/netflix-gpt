@@ -1,5 +1,12 @@
 import {useState , useRef} from "react";
 import { formValidation } from "../utils/formValidation";
+import { auth } from "../utils/firebase";
+import { createUserWithEmailAndPassword , signInWithEmailAndPassword , updateProfile} from "firebase/auth";
+import { getFirebaseErrorMessage } from "../utils/firebase";
+import { useDispatch } from "react-redux";
+import  {addUser}  from "../utils/userSlice";
+import { useNavigate } from "react-router-dom";
+
 const Header = () => {
     return (
         <div className="absolute w-6/12 m-10 ml-30 z-10 ">
@@ -13,6 +20,8 @@ const Login = () => {
     const email = useRef(null);
     const password = useRef(null);
     const name = useRef(null);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const handleForm = () => {
         setsignUp(!signUp);
@@ -21,7 +30,43 @@ const Login = () => {
     const handleValidation = (email , password , name , signUp) => {
         const message = (name.current) ? formValidation(email.current.value , password.current.value , name.current.value , signUp) :formValidation(email.current.value , password.current.value , signUp);
         seterrorMsg(message);
-    }
+
+        if(message) return;
+
+        if(signUp){
+            createUserWithEmailAndPassword(auth, email.current.value , password.current.value)
+                .then(() => {
+                    updateProfile(auth.currentUser, {
+                        displayName: name.current.value 
+                    }).then(() => {
+                        dispatch(addUser({uid:auth.currentUser.uid , displayName: auth.currentUser.displayName , email: auth.currentUser.email}));
+                        navigate("/browse");
+                        // Profile updated!
+                    }).catch((error) => {
+                        seterrorMsg(error.message);
+                        // An error occurred
+                    });   
+                })
+                .catch((error) => {
+                    const errorCode = error.code;
+                    seterrorMsg(getFirebaseErrorMessage(errorCode));
+                });
+        }
+        else{
+            signInWithEmailAndPassword(auth, email.current.value , password.current.value)
+                .then((userCredential) => {
+                    // Signed in 
+                    const user = userCredential.user;
+                    console.log(user);
+                    dispatch(addUser({uid: user.uid, displayName: user.displayName, email: user.email}));
+                    navigate("/browse");
+                })
+                .catch((error) => {
+                    const errorCode = error.code;
+                    seterrorMsg(getFirebaseErrorMessage(errorCode));
+                });
+        }
+}
 
     return (
        
@@ -36,7 +81,7 @@ const Login = () => {
 
             {/* Form */}
             <div className = "  absolute inset-0 flex justify-center items-center ">
-            <form className=" bg-black/70 rounded-sm flex flex-col p-20" onSubmit={(e) => {
+            <form className=" bg-black/70 rounded-sm flex flex-col py-20 px-15" onSubmit={(e) => {
                 e.preventDefault();
             }} >
 
