@@ -1,16 +1,15 @@
-import {  signOut } from "firebase/auth";
+import {  onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "../utils/firebase";
 import { useDispatch , useSelector } from "react-redux";
-import { removeUser } from "../utils/userSlice";
+import { addUser, removeUser } from "../utils/userSlice";
 import { useNavigate } from "react-router-dom";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
 const Header = () => {
     const [showAlert , setshowAlert] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const user = useSelector((store) => store.user);
-    console.log(user);
 
     const handleSignOut = () => {
         // Implement sign-out logic here
@@ -19,13 +18,25 @@ const Header = () => {
         .then(() => {
             // Sign-out successful.
             dispatch(removeUser());
-            navigate("/login");
         
         }).catch((error) => {
             // An error happened. 
             console.error("Error signing out:", error);
         });
     }
+
+     useEffect(() => {
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                dispatch(addUser({uid: user.uid , displayName: user.displayName , email: user.email} ));
+                navigate("/browse");
+            } else {
+                dispatch(removeUser());
+                navigate("/login");
+            }
+        });
+    } , [])
+
     return (
         <>
         {showAlert && <div className="fixed inset-0 flex items-center justify-center z-50">
@@ -39,19 +50,19 @@ const Header = () => {
                     No
                 </button>
                 </div>
-            </div>
+            </div> 
             
         </div>}
-        <div className = "p-5 pl-7 font-bold flex justify-between text-center bg-linear-to-b from-black/70 to-transparent">
+        <div className = "p-5 pl-7 font-bold flex justify-between text-center bg-linear-to-b from-black/70  to-transparent absolute w-full top-0 z-10">
             <img src = "https://occ.a.nflxso.net/dnmt/api/v6/iL4oJVDYZ8KLSrJ6eG2OwtghbfQ/AAAAAeuLioOK1ZSC8bQbffYbz1gZFxugAQdkx7UsMvqKDtFJLk3EWkpY-w8IBimYy_0xmg1aTzugh7JDHsGzv6hqIL9_qklFo-PFSH81MwCe9rokU4kGkdki.svg" alt = "LOGO" className="h-12"/>
-            <div className="relative group">
+            {user && <div className="relative group">
             <img src = "https://i.pinimg.com/564x/1b/a2/e6/1ba2e6d1d4874546c70c91f1024e17fb.jpg" alt = "sign out" className="w-12 cursor-pointer hover:border" 
                 onClick={() => {setshowAlert(true)}}
             />
             <div className="absolute right-0 top-full mt-1 w-20 bg-black/90 border border-gray-700 rounded hidden group-hover:block text-white text-sm ">
                     Sign Out
             </div>
-            </div>
+            </div>}
         </div>
         </>
     )

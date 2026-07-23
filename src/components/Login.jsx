@@ -5,15 +5,9 @@ import { createUserWithEmailAndPassword , signInWithEmailAndPassword , updatePro
 import { getFirebaseErrorMessage } from "../utils/firebase";
 import { useDispatch } from "react-redux";
 import  {addUser}  from "../utils/userSlice";
-import { useNavigate } from "react-router-dom";
+import Header from "./Header";
 
-const Header = () => {
-    return (
-        <div className="absolute w-6/12 m-10 ml-30 z-10 ">
-            <img src = "https://occ.a.nflxso.net/dnmt/api/v6/iL4oJVDYZ8KLSrJ6eG2OwtghbfQ/AAAAAeuLioOK1ZSC8bQbffYbz1gZFxugAQdkx7UsMvqKDtFJLk3EWkpY-w8IBimYy_0xmg1aTzugh7JDHsGzv6hqIL9_qklFo-PFSH81MwCe9rokU4kGkdki.svg" alt = "LOGO" className="h-12"/>
-        </div>
-    )
-}
+
 const Login = () => {
     const [signUp , setsignUp] = useState(false);
     const [errorMsg , seterrorMsg] = useState(null);
@@ -21,7 +15,6 @@ const Login = () => {
     const password = useRef(null);
     const name = useRef(null);
     const dispatch = useDispatch();
-    const navigate = useNavigate();
 
     const handleForm = () => {
         setsignUp(!signUp);
@@ -40,7 +33,6 @@ const Login = () => {
                         displayName: name.current.value 
                     }).then(() => {
                         dispatch(addUser({uid:auth.currentUser.uid , displayName: auth.currentUser.displayName , email: auth.currentUser.email}));
-                        navigate("/browse");
                         // Profile updated!
                     }).catch((error) => {
                         seterrorMsg(error.message);
@@ -57,9 +49,7 @@ const Login = () => {
                 .then((userCredential) => {
                     // Signed in 
                     const user = userCredential.user;
-                    console.log(user);
                     dispatch(addUser({uid: user.uid, displayName: user.displayName, email: user.email}));
-                    navigate("/browse");
                 })
                 .catch((error) => {
                     const errorCode = error.code;
@@ -73,7 +63,7 @@ const Login = () => {
         <div  >
             <Header />
             {/* gradient affect */}
-            <div className="absolute top-0 left-0 w-full h-60 bg-linear-to-b from-black/70 to-transparent"></div>
+            {/* <div className="absolute top-0 left-0 w-full h-60 bg-linear-to-b from-black/70 to-transparent"></div> */}
             <div className="absolute bottom-0 left-0 w-full h-90 bg-linear-to-t from-black/90 to-transparent"></div>
 
             {/* background Image */}
