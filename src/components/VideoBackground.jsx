@@ -19,10 +19,10 @@ export const VideoBackground = ({movieID}) => {
     useEffect(() => {
         getVideo();
     },[])
-    // console.log(data);
+
     return(
-        <div className="h-full w-full">{data && <iframe
-            className="inset-0 w-full aspect-video overflow-hidden " 
+        <div className="">{data && <iframe
+            className="inset-0  aspect-video overflow-hidden " 
             src={`https://www.youtube.com/embed/${data.key}?autoplay=1&mute=1&controls=0&modestbranding=1&showinfo=0&rel=0&iv_load_policy=3&loop=1&playlist=${data.key}&playsinline=1`}
             title="trailer"
             allow="autoplay; encrypted-media"

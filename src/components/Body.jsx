@@ -3,6 +3,8 @@ import Login from "./Login";
 // import Header from "./Header";
 import Home from "./Home";
 import { createBrowserRouter , RouterProvider } from "react-router";
+
+// import GptResults from "./GptResults";
 // import { useDispatch } from "react-redux";
 // import { useEffect } from "react";
 // import { auth } from "../utils/firebase";
@@ -36,7 +38,11 @@ const Body = () => {
     {
         path: "/browse",
         element: <Browse />
-    }
+    },
+    // {
+    //     path: "/GPTsearch",
+    //     element: <GptResults />
+    // }
     ])
 
     return (

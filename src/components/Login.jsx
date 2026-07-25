@@ -6,6 +6,7 @@ import { getFirebaseErrorMessage } from "../utils/firebase";
 import { useDispatch } from "react-redux";
 import  {addUser}  from "../utils/userSlice";
 import Header from "./Header";
+import { BG_IMG } from "../utils/constants";
 
 
 const Login = () => {
@@ -67,7 +68,7 @@ const Login = () => {
             <div className="absolute bottom-0 left-0 w-full h-90 bg-linear-to-t from-black/90 to-transparent"></div>
 
             {/* background Image */}
-            <img src = "https://assets.nflxext.com/ffe/siteui/vlv3/eaa165a3-80a7-44cb-8df6-be1a7e225369/web/IN-en-20260706-TRIFECTA-perspective_2f2fae68-6962-4d52-8cc2-1fe6ef5c6a56_small.jpg" className="h-screen w-full"/>
+            <img src = {BG_IMG} className="h-screen w-full"/>
 
             {/* Form */}
             <div className = "  absolute inset-0 flex justify-center items-center ">

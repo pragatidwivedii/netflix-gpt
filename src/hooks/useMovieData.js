@@ -17,7 +17,6 @@ export const useMovieData = () => {
         const json_TopRated = await data_TopRated.json();
         const json_Upcoming = await data_Upcoming.json();
 
-        // console.log(json_nowPlaying);
     
         await dispatch(addNowPlayingMovies(json_nowPlaying.results));
         await dispatch(addPopularMovies(json_Popular.results));

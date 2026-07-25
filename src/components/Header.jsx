@@ -4,13 +4,14 @@ import { useDispatch , useSelector } from "react-redux";
 import { addUser, removeUser } from "../utils/userSlice";
 import { useNavigate } from "react-router-dom";
 import {useEffect, useState} from "react";
+import { toggleShowGptPage } from "../utils/GptSlice";
 
 const Header = () => {
     const [showAlert , setshowAlert] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const user = useSelector((store) => store.user);
-
+    const ShowGptPage = useSelector((store) => store.GPT.ShowGptPage)
     const handleSignOut = () => {
         // Implement sign-out logic here
         signOut(auth)
@@ -37,6 +38,10 @@ const Header = () => {
         });
     } , [])
 
+    const handleShowGPT = () => {
+        dispatch(toggleShowGptPage());
+    }
+
     return (
         <>
         {showAlert && <div className="fixed inset-0 flex items-center justify-center z-50">
@@ -53,15 +58,18 @@ const Header = () => {
             </div> 
             
         </div>}
+
         <div className = "p-5 pl-7 font-bold flex justify-between text-center bg-linear-to-b from-black/70  to-transparent absolute w-full top-0 z-10">
             <img src = "https://occ.a.nflxso.net/dnmt/api/v6/iL4oJVDYZ8KLSrJ6eG2OwtghbfQ/AAAAAeuLioOK1ZSC8bQbffYbz1gZFxugAQdkx7UsMvqKDtFJLk3EWkpY-w8IBimYy_0xmg1aTzugh7JDHsGzv6hqIL9_qklFo-PFSH81MwCe9rokU4kGkdki.svg" alt = "LOGO" className="h-12"/>
-            {user && <div className="relative group">
+            {user && <div className="flex">
+            <button className=" text-white mx-10 text-2xl  cursor-pointer" onClick={handleShowGPT}>{(ShowGptPage)? "HOME PAGE" : "GPT SEARCH"}</button>
+            <div className="relative group ">
             <img src = "https://i.pinimg.com/564x/1b/a2/e6/1ba2e6d1d4874546c70c91f1024e17fb.jpg" alt = "sign out" className="w-12 cursor-pointer hover:border" 
                 onClick={() => {setshowAlert(true)}}
             />
             <div className="absolute right-0 top-full mt-1 w-20 bg-black/90 border border-gray-700 rounded hidden group-hover:block text-white text-sm ">
                     Sign Out
-            </div>
+            </div></div>
             </div>}
         </div>
         </>

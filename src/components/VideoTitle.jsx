@@ -3,10 +3,10 @@
 const VideoTitle = ( {title , overview} ) => {
     
     return(
-        <div className='z-0 absolute text-white bg-linear-to-r from-black/50 to-transparent aspect-video content-end'>
-            <div className="m=5 p-5 mb-[22%] ml-[5%]">
+        <div className='z-0 absolute text-white bg-linear-to-r from-black/50 to-transparent aspect-video content-end h-full w-full '>
+            <div className="m-5 p-5 mb-45 ml-20">
             <h1 className="font-bold text-5xl mb-8">{title}</h1>
-            <p className="w-1/3 text-lg my-3">{overview}</p>
+            <p className="w-100 text-lg my-3">{overview}</p>
             <div className="flex">
             <div className="flex border my-2 mr-5 p-1 cursor-pointer w-25 bg-white text-black text-center rounded-lg">
                 <img src="https://img.icons8.com/m_sharp/1200/play--v1.jpg" className="w-10 "/>
