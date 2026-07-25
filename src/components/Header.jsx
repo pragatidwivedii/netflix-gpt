@@ -19,6 +19,7 @@ const Header = () => {
         .then(() => {
             // Sign-out successful.
             dispatch(removeUser());
+            if(GPTselector.ShowGptPage) dispatch(toggleShowGptPage());
         
         }).catch((error) => {
             // An error happened. 
@@ -33,7 +34,7 @@ const Header = () => {
                 navigate("/browse");
             } else {
                 dispatch(removeUser());
-                navigate("/login");
+                navigate("/");
             }
         });
     } , [])
