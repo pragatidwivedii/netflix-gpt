@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/set-state-in-effect */
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useState ,useEffect} from "react";
 import { API_OPTIONS } from "../utils/constants";
 
@@ -17,12 +17,13 @@ export const VideoBackground = ({movieID}) => {
     }
 
     useEffect(() => {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         getVideo();
     },[])
 
     return(
         <div className="">{data && <iframe
-            className="inset-0  aspect-video overflow-hidden " 
+            className="inset-0 aspect-video overflow-hidden pt-10 md:pt-0" 
             src={`https://www.youtube.com/embed/${data.key}?autoplay=1&mute=1&controls=0&modestbranding=1&showinfo=0&rel=0&iv_load_policy=3&loop=1&playlist=${data.key}&playsinline=1`}
             title="trailer"
             allow="autoplay; encrypted-media"
